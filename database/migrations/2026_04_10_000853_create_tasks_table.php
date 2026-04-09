@@ -16,7 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+
+            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
+            $table->date('due_date')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+
+            $table->index(['status', 'priority']);
+            $table->index('due_date');
         });
     }
 

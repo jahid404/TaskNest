@@ -18,6 +18,9 @@
                     <div
                         class="rounded-3xl border border-gray-100 bg-white p-6 shadow-theme-xs dark:border-gray-800 dark:bg-white/[0.03]">
                         <h2 class="mb-6 text-lg font-bold text-gray-900 dark:text-white/90">Task Details</h2>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            Keep it simple: define the outcome, set a realistic priority, and add a due date only when it matters.
+                        </p>
 
                         <div class="space-y-4">
                             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -38,11 +41,34 @@
                                 <div class="space-y-2">
                                     <label for="status"
                                         class="block text-sm font-bold text-gray-700 dark:text-gray-300">Status</label>
-                                    <x-form.select name="status" id="status" :options="[
-                                        ['value' => 'pending', 'label' => 'Pending'],
-                                        ['value' => 'in_progress', 'label' => 'In Progress'],
-                                        ['value' => 'completed', 'label' => 'Completed'],
-                                    ]" :selected="old('status', $task->status)" required :error="$errors->first('status')" />
+                                    <x-form.select name="status" id="status" :options="collect($statusOptions)
+                                        ->map(fn($label, $value) => ['value' => $value, 'label' => $label])
+                                        ->values()
+                                        ->all()"
+                                        :selected="old('status', $task->status ?: 'pending')" required :error="$errors->first('status')" />
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                <div class="space-y-2">
+                                    <label for="priority"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Priority</label>
+                                    <x-form.select name="priority" id="priority" :options="collect($priorityOptions)
+                                        ->map(fn($label, $value) => ['value' => $value, 'label' => $label])
+                                        ->values()
+                                        ->all()"
+                                        :selected="old('priority', $task->priority ?: 'medium')" required :error="$errors->first('priority')" />
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="due_date"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Due Date</label>
+                                    <input type="date" id="due_date" name="due_date"
+                                        value="{{ old('due_date', optional($task->due_date)->format('Y-m-d')) }}"
+                                        class="h-12 w-full rounded-2xl border border-gray-100 bg-slate-50 px-4 text-sm font-medium outline-none transition-all focus:border-brand-500/50 focus:bg-white focus:ring-4 focus:ring-brand-500/5 dark:border-gray-800 dark:bg-white/5 dark:text-white">
+                                    @error('due_date')
+                                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -56,6 +82,11 @@
                                 @error('description')
                                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                                 @enderror
+                            </div>
+
+                            <div
+                                class="rounded-2xl border border-gray-100 bg-slate-50 px-4 py-3 text-sm text-gray-500 dark:border-gray-800 dark:bg-white/5 dark:text-gray-400">
+                                Tasks marked as completed are automatically timestamped so the dashboard can track execution more reliably.
                             </div>
 
                         </div>
