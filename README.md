@@ -109,3 +109,7 @@ php artisan test
 # OR
 ./vendor/bin/pest
 ```
+
+## 📜 Changelog
+
+For a detailed history of changes, please refer to the [CHANGELOG.md](CHANGELOG.md) file.
