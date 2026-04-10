@@ -53,6 +53,14 @@ php artisan key:generate
 
 _Note: Update the `DB_\*`variables in your`.env` file with your local database credentials.
 
+#### Quick Login (Optional)
+
+For faster development and testing, you can enable "Quick Login" which adds shortcut buttons to the sign-in page from `.env` file:
+
+```bash
+QUICK_LOGIN=true
+```
+
 ### 4. Database & Seeding
 
 Run migrations and seed the database with initial data:
