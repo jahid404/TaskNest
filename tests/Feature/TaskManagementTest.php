@@ -55,3 +55,36 @@ it('filters tasks by search without leaking unrelated records through or clauses
     $response->assertSee('Website polish');
     $response->assertDontSee('Mobile QA');
 });
+
+it('validates required fields when saving a task', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post(route('dashboard.tasks.save'), [
+        'name' => '', // Required
+        'status' => 'invalid-status', // Must be valid
+    ]);
+
+    $response->assertSessionHasErrors(['name', 'status']);
+});
+
+it('can delete a task', function () {
+    $user = User::factory()->create();
+    $task = Task::factory()->create(['name' => 'Task to be deleted']);
+
+    $response = $this->actingAs($user)->delete(route('dashboard.tasks.destroy', $task));
+
+    $response->assertRedirect(route('dashboard.tasks.index'));
+    $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+});
+
+it('sorts tasks by due date', function () {
+    $user = User::factory()->create();
+
+    Task::factory()->create(['name' => 'Due Later', 'due_date' => '2026-12-31']);
+    Task::factory()->create(['name' => 'Due Sooner', 'due_date' => '2026-01-01']);
+
+    $response = $this->actingAs($user)->get(route('dashboard.tasks.index', ['sort' => 'due_soon']));
+
+    $response->assertOk();
+    $response->assertSeeInOrder(['Due Sooner', 'Due Later']);
+});

@@ -63,8 +63,8 @@ class TaskController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'required|in:'.implode(',', array_keys(Task::statusOptions())),
-            'priority' => 'required|in:'.implode(',', array_keys(Task::priorityOptions())),
+            'status' => 'required|in:' . implode(',', array_keys(Task::statusOptions())),
+            'priority' => 'required|in:' . implode(',', array_keys(Task::priorityOptions())),
             'due_date' => 'nullable|date',
         ]);
 
