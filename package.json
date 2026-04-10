@@ -6,7 +6,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "release": "standard-version"
+        "release": "standard-version",
+        "prod": "npm run build && php artisan config:clear && php artisan route:clear"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.12",
