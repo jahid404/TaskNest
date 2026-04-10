@@ -4,6 +4,6 @@
             class="rounded-full bg-gray-200 px-2 py-0.5 text-[10px] text-gray-600 dark:bg-white/10 dark:text-gray-400">v{{ json_decode(file_get_contents(base_path('package.json')))->version ?? '' }}</span>
     </h3>
     <p class="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        TaskNest — Task Management Platform
+        Task Management Platform
     </p>
 </div>

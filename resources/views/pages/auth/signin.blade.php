@@ -138,7 +138,7 @@
                                     class="text-gray-400 dark:text-gray-500">Nest</span></span>
                         </a>
                         <p class="text-center text-gray-400 dark:text-white/60">
-                            TaskNest — Task Management Platform
+                            Task Management Platform
                         </p>
                     </div>
                 </div>
